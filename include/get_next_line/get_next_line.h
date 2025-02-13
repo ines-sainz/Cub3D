@@ -22,10 +22,10 @@
 # include <unistd.h>
 
 char	*get_next_line(int fd);
-void	*ft_calloc(size_t count, size_t size);
-char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_strchr(const char *s, int c);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-size_t	ft_strlen(const char *s);
+void	*ft_calloc_gnl(size_t count, size_t size);
+char	*ft_strjoin_gnl(char const *s1, char const *s2);
+char	*ft_strchr_gnl(const char *s, int c);
+char	*ft_substr_gnl(char const *s, unsigned int start, size_t len);
+size_t	ft_strlen_gnl(const char *s);
 
 #endif

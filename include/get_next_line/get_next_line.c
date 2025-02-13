@@ -26,7 +26,7 @@ char	*ft_aux(char *aux)
 		i++;
 	if (aux[i] == '\n')
 		i++;
-	r_aux = ft_substr(aux, i, j);
+	r_aux = ft_substr_gnl(aux, i, j);
 	if (!r_aux)
 		return (free(aux), NULL);
 	free(aux);
@@ -43,7 +43,7 @@ char	*ft_line(char *aux)
 		i++;
 	if (aux[i] == '\n')
 		i++;
-	line = ft_substr(aux, 0, i);
+	line = ft_substr_gnl(aux, 0, i);
 	if (!line)
 		return (0);
 	return (line);
@@ -55,11 +55,11 @@ char	*ft_read(int fd, char *text)
 	char	*buffer;
 	char	*aux;
 
-	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	buffer = ft_calloc_gnl(BUFFER_SIZE + 1, sizeof(char));
 	if (!buffer)
 		return (NULL);
 	n_bytes = 1;
-	while (!ft_strchr(text, '\n') && n_bytes)
+	while (!ft_strchr_gnl(text, '\n') && n_bytes)
 	{
 		n_bytes = read(fd, buffer, BUFFER_SIZE);
 		if (n_bytes < 0)
@@ -68,7 +68,7 @@ char	*ft_read(int fd, char *text)
 			return (free(buffer), text);
 		buffer[n_bytes] = '\0';
 		aux = text;
-		text = ft_strjoin(text, buffer);
+		text = ft_strjoin_gnl(text, buffer);
 		free(aux);
 	}
 	free(buffer);

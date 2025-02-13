@@ -39,9 +39,9 @@
 		game->textures->west = ft_strdup(texture[1]);
 	}
 	return (0);
-}
+}*/
 
-int	check_line(char *temp, char **texture, t_game *game)
+/*int	check_line(char *temp, char **texture, t_game *game)
 {
 	static int	line_break = 0;
 	static int	map = 0;
@@ -60,9 +60,9 @@ int	check_line(char *temp, char **texture, t_game *game)
 	if (ft_strncmp(texture[0], "WE", 2) && ft_strlen(temp) == 2)
 		return(check_texture(texture, game));
 
-}
+}*/
 
-int	set_in_struct(t_game *game)
+/*int	set_in_struct(t_game *game)
 {
 	int		i;
 	int		start;
@@ -115,59 +115,58 @@ int	set_in_struct(t_game *game)
 	return (free(buffer), free(game->everything_line), 0);
 }*/
 
-int	open_save_all(char *argv, t_game *game, int n_bytes)
+/*int	check_colors(char **split_line, t_game *game, int *error)
 {
-	int		fd;
-	int		error;
-	char	line[2];
-
-	fd = open(argv, O_RDONLY);
-	if (fd < 0)
-		return (errors("Can't open .cub file\n"));
-	while (1)
+	if ((!game->textures->north || !game->textures->south
+		|| !game->textures->east || !game->textures->west))
 	{
-		line[0] = get_next_line(fd);
-		if (!line)
-			break ;
-		line[1] = ft_split(line[0], ' ');
-		if (set_line_in_struct(line, game, error) == 1)
-			error = 1;
-		printf("line = %s, split_line = %s", line[0], line[1]);
-		free(line[0]);
-		free(line[1]);
+		error = 1;
+		return (errors("Textures aren't written correctly\n"));
 	}
-	if (error)
-		return(errors("Textures or map aren't written correctly\n"));
+	if (ft_strncmp(split_line[0], "F", 1) && ft_strlen(split_line[0]) == 1)
+	{
+		game->textures->floor[0] = 
+	}
 	return (0);
-}
+}*/
 
-int	check_cub(char *argv)
+/*int	check_texture(char **split_line, t_game *game, int *error)
 {
-	char	*extension;
-	int		len_extension;
-
-	len_extension = ft_strlen(argv);
-	extension = ft_substr(argv, len_extension - 4, 4);
-	if (!extension)
-		return (errors("Add only one argument ended in .cub\n"));
-	if (ft_strncmp(".cub", extension, 4) == 0
-		&& len_extension > 4 && argv[len_extension - 5] != '/')
+	if ((ft_strncmp(split_line[0], "NO", 2) && ft_strlen(split_line[0]) == 2)
+		|| (ft_strncmp(split_line[0], "SO", 2) && ft_strlen(split_line[0]) == 2)
+		|| (ft_strncmp(split_line[0], "EA", 2) && ft_strlen(split_line[0]) == 2)
+		|| (ft_strncmp(split_line[0], "WE", 2) && ft_strlen(split_line[0]) == 2))
 	{
-		free(extension);
-		return (0);
+		if (!split_line[1] || split_line[2])
+		{
+			errors("Textures aren't written correctly\n");
+			*error = 1;
+		}
 	}
-	free(extension);
-	return (errors("Add only one argument ended in .cub\n"));
-}
+	else if (check_colors(split_line, game, error) == 1)
+		return (1);
+	else if (!game->textures->north || !game->textures->south
+		|| !game->textures->east || !game->textures->west)
+		return (1);
+	if (ft_strncmp(split_line[0], "NO", 2) && ft_strlen(split_line[0]) == 2)
+		game->textures->north = ft_strdup(split_line[1]);
+	if (ft_strncmp(split_line[0], "SO", 2) && ft_strlen(split_line[0]) == 2)
+		game->textures->south = ft_strdup(split_line[1]);
+	if (ft_strncmp(split_line[0], "EA", 2) && ft_strlen(split_line[0]) == 2)
+		game->textures->east = ft_strdup(split_line[1]);
+	if (ft_strncmp(split_line[0], "WE", 2) && ft_strlen(split_line[0]) == 2)
+		game->textures->west = ft_strdup(split_line[1]);
+	return (0);
+}*/
 
 int	parse(t_game *game, char *argv)
 {
 	(void)game;
 	if (check_cub(argv) == 1)
 		return (1);
-	if (open_save_all(argv, game, 1) == 1)
+	if (open_save_all(argv, game, 0) == 1)
 		return (1);
-//	if (set_in_struct(game) == 1)
+//	if (check_textures(game) == 1)
 //		return (1);
 	return (0);
 }

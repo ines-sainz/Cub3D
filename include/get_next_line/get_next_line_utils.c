@@ -13,7 +13,7 @@
 #include "get_next_line.h"
 #include <stdint.h>
 
-void	*ft_calloc(size_t count, size_t size)
+void	*ft_calloc_gnl(size_t count, size_t size)
 {
 	unsigned char	*pointer;
 	size_t			i;
@@ -32,7 +32,7 @@ void	*ft_calloc(size_t count, size_t size)
 	return ((void *)pointer);
 }
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strlen_gnl(const char *s)
 {
 	size_t	i;
 
@@ -44,7 +44,7 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin_gnl(char const *s1, char const *s2)
 {
 	char	*resultado;
 	size_t	i;
@@ -54,9 +54,9 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	i = 0;
 	j = 0;
-	len_s1 = ft_strlen(s1);
-	len_s2 = ft_strlen(s2);
-	resultado = ft_calloc(len_s1 + len_s2 + 1, 1);
+	len_s1 = ft_strlen_gnl(s1);
+	len_s2 = ft_strlen_gnl(s2);
+	resultado = ft_calloc_gnl(len_s1 + len_s2 + 1, 1);
 	if (!resultado)
 		return (NULL);
 	while (i < len_s1 && s1[0] != '\0')
@@ -67,7 +67,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (resultado);
 }
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strchr_gnl(const char *s, int c)
 {
 	int	i;
 
@@ -75,7 +75,7 @@ char	*ft_strchr(const char *s, int c)
 	if (!s)
 		return (0);
 	if ((char)c == '\0')
-		return ((char *) &s[ft_strlen(s)]);
+		return ((char *) &s[ft_strlen_gnl(s)]);
 	while (s[i] != '\0')
 	{
 		if (s[i] == (char)c)
@@ -85,12 +85,12 @@ char	*ft_strchr(const char *s, int c)
 	return (0);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr_gnl(char const *s, unsigned int start, size_t len)
 {
 	size_t	i;
 	char	*sub_string;
 
-	if (start > ft_strlen(s) || s[0] == '\0' || len == 0)
+	if (start > ft_strlen_gnl(s) || s[0] == '\0' || len == 0)
 	{
 		sub_string = malloc(1 * sizeof(char));
 		if (!sub_string)
@@ -98,8 +98,8 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		sub_string[0] = '\0';
 		return ((char *)sub_string);
 	}
-	if (len > (ft_strlen(s) - start))
-		len = ft_strlen(s) - start;
+	if (len > (ft_strlen_gnl(s) - start))
+		len = ft_strlen_gnl(s) - start;
 	sub_string = malloc(len + 1 * sizeof(char));
 	if (!sub_string)
 		return (NULL);

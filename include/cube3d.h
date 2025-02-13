@@ -38,8 +38,8 @@ typedef struct s_textures
 
 typedef struct s_game
 {
-	char		*everything_line;
-	char		**everything;
+	char		*is_map;
+	char		*is_texture;
 	char		**map;
 	int			map_width;
 	int			map_height;
@@ -53,5 +53,7 @@ int	errors(char	*str);
 
 //PARSE
 int	parse(t_game *game, char *argv);
+int	check_cub(char *argv);
+int	open_save_all(char *argv, t_game *game, int temp);
 
 #endif

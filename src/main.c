@@ -36,12 +36,10 @@ void	free_structure(t_game *game)
 			free(game->textures->west);
 		free(game->textures);
 	}
-	if (game->everything)
-	{
-		while (game->everything[i])
-			free(game->everything[i++]);
-		free(game->everything);
-	}
+	if (game->is_map)
+		free(game->is_map);
+	if (game->is_texture)
+		free(game->is_texture);
 }
 
 void	init_structure(t_game *game)
@@ -62,13 +60,8 @@ int	main(int argc, char **argv)
 		free_structure(&game);
 		return (1);
 	}
-	int i = 0;
-	printf("everything:\n");
-	while (game.everything[i])
-	{
-		printf("%i: %s\n", i, game.everything[i]);
-		i++;
-	}
+	printf("is_texture: %s\n", game.is_texture);
+	printf("is_map: %s\n", game.is_map);
 	printf("map_width : %i map_height: %i\n", game.map_width, game.map_height);
 	printf("player_x : %i player_y: %i\n", game.player_x, game.player_y);
 	printf("textures: %s\n",game.textures->north);

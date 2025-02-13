@@ -17,7 +17,8 @@ CFLAGS			=	-Wall -Wextra -Werror -g3
 
 PARSE_DIR		=	src/parse
 SRC				=	src/main.c \
-					$(PARSE_DIR)/parse.c 
+					$(PARSE_DIR)/parse.c \
+					$(PARSE_DIR)/cub_line_break.c
 
 OBJ				=	$(SRC:.c=.o)
 
