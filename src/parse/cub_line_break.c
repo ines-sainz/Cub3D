@@ -98,7 +98,7 @@ int	open_save_all(char *argv, t_game *game, int temp)
 				temp = 1;
 		free(line);
 	}
-	return (temp);
+	return (close(fd), temp);
 }
 
 int	check_cub(char *argv)

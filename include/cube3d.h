@@ -55,5 +55,6 @@ int	errors(char	*str);
 int	parse(t_game *game, char *argv);
 int	check_cub(char *argv);
 int	open_save_all(char *argv, t_game *game, int temp);
+void	free_matrix(char **matrix);
 
 #endif

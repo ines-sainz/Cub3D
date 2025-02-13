@@ -120,44 +120,70 @@
 	if ((!game->textures->north || !game->textures->south
 		|| !game->textures->east || !game->textures->west))
 	{
-		error = 1;
 		return (errors("Textures aren't written correctly\n"));
 	}
-	if (ft_strncmp(split_line[0], "F", 1) && ft_strlen(split_line[0]) == 1)
+	if (!ft_strncmp(split_line[0], "F", 1) && ft_strlen(split_line[0]) == 1)
 	{
 		game->textures->floor[0] = 
 	}
 	return (0);
 }*/
 
-/*int	check_texture(char **split_line, t_game *game, int *error)
+int	set_texture(char **split_line, t_game *game)
 {
-	if ((ft_strncmp(split_line[0], "NO", 2) && ft_strlen(split_line[0]) == 2)
-		|| (ft_strncmp(split_line[0], "SO", 2) && ft_strlen(split_line[0]) == 2)
-		|| (ft_strncmp(split_line[0], "EA", 2) && ft_strlen(split_line[0]) == 2)
-		|| (ft_strncmp(split_line[0], "WE", 2) && ft_strlen(split_line[0]) == 2))
+	if ((!ft_strncmp(split_line[0], "NO", 2) && ft_strlen(split_line[0]) == 2)
+		|| (!ft_strncmp(split_line[0], "SO", 2) && ft_strlen(split_line[0]) == 2)
+		|| (!ft_strncmp(split_line[0], "EA", 2) && ft_strlen(split_line[0]) == 2)
+		|| (!ft_strncmp(split_line[0], "WE", 2)
+			&& ft_strlen(split_line[0]) == 2))
 	{
-		if (!split_line[1] || split_line[2])
-		{
-			errors("Textures aren't written correctly\n");
-			*error = 1;
-		}
+		if (!split_line[0] || !split_line[1] || split_line[2])
+			return (free_matrix(split_line), errors("Incorrect textures\n"));
 	}
-	else if (check_colors(split_line, game, error) == 1)
-		return (1);
-	else if (!game->textures->north || !game->textures->south
-		|| !game->textures->east || !game->textures->west)
-		return (1);
-	if (ft_strncmp(split_line[0], "NO", 2) && ft_strlen(split_line[0]) == 2)
+	if (!ft_strncmp(split_line[0], "NO", 2) && ft_strlen(split_line[0]) == 2)
 		game->textures->north = ft_strdup(split_line[1]);
-	if (ft_strncmp(split_line[0], "SO", 2) && ft_strlen(split_line[0]) == 2)
+	else if (!ft_strncmp(split_line[0], "SO", 2) && ft_strlen(split_line[0]) == 2)
 		game->textures->south = ft_strdup(split_line[1]);
-	if (ft_strncmp(split_line[0], "EA", 2) && ft_strlen(split_line[0]) == 2)
+	else if (!ft_strncmp(split_line[0], "EA", 2) && ft_strlen(split_line[0]) == 2)
 		game->textures->east = ft_strdup(split_line[1]);
-	if (ft_strncmp(split_line[0], "WE", 2) && ft_strlen(split_line[0]) == 2)
+	else if (!ft_strncmp(split_line[0], "WE", 2) && ft_strlen(split_line[0]) == 2)
 		game->textures->west = ft_strdup(split_line[1]);
-	return (0);
-}*/
+//	if (check_colors(split_line, game) == 1)
+//		return (free_matrix(split_line), 1);
+	return (free_matrix(split_line), 0);
+}
+
+int	check_textures(t_game *game)
+{
+	int		i;
+//	int		fd[4];
+	char	**split_textures;
+
+	i = 0;
+	split_textures = ft_split(game->is_texture, '\n');
+	while (split_textures[i])
+	{
+		if (set_texture(ft_split(split_textures[i], ' '), game) == 1)
+			return (free_matrix(split_textures), 1);
+		i++;
+	}
+/*	fd[0] = open(game->textures->north, O_RDONLY);
+	if (fd[0] < 0)
+		return (free_matrix(split_textures), errors("Can't open texture\n"));
+	fd[1] = open(game->textures->north, O_RDONLY);
+	if (fd[1] < 0)
+	{
+		close(fd[0]);
+		return (free_matrix(split_textures), errors("Can't open texture\n"));
+	}
+	fd[2] = open(game->textures->north, O_RDONLY);
+	fd[3] = open(game->textures->north, O_RDONLY);
+	close(fd[0]);
+	close(fd[1]);
+	close(fd[2]);
+	close(fd[3]);*/
+	return (free_matrix(split_textures), 0);
+}
 
 int	parse(t_game *game, char *argv)
 {
@@ -166,7 +192,7 @@ int	parse(t_game *game, char *argv)
 		return (1);
 	if (open_save_all(argv, game, 0) == 1)
 		return (1);
-//	if (check_textures(game) == 1)
-//		return (1);
+	if (check_textures(game) == 1)
+		return (1);
 	return (0);
 }
