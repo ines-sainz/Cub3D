@@ -27,7 +27,7 @@ void	free_matrix(char **matrix)
 
 int	is_map(char *line, int *is_map, t_game *game)
 {
-	char	*temp;
+	char		*temp;
 	static int	line_break = 0;
 
 	if (line_break == 1 && *is_map == 1 && line[0] != '\n')
@@ -48,20 +48,21 @@ int	is_map(char *line, int *is_map, t_game *game)
 int	is_texture(char *line, int is_map, t_game *game)
 {
 	char	*temp;
-	char	**split_line;
+	char	**matrix;
 
-	split_line = ft_split(line, ' ');
-	if (!((!ft_strncmp(split_line[0], "NO", 2) && ft_strlen(split_line[0]) == 2)
-		|| (!ft_strncmp(split_line[0], "SO", 2) && ft_strlen(split_line[0]) == 2)
-		|| (!ft_strncmp(split_line[0], "EA", 2) && ft_strlen(split_line[0]) == 2)
-		|| (!ft_strncmp(split_line[0], "WE", 2) && ft_strlen(split_line[0]) == 2)
-		|| (!ft_strncmp(split_line[0], "F", 1) && ft_strlen(split_line[0]) == 1)
-		|| (!ft_strncmp(split_line[0], "C", 1) && ft_strlen(split_line[1]) == 1)))
+	matrix = ft_split(line, ' ');
+	if (!(((!ft_strncmp(matrix[0], "NO", 2) || !ft_strncmp(matrix[0], "SO", 2)
+					|| !ft_strncmp(matrix[0], "EA", 2)
+					|| !ft_strncmp(matrix[0], "WE", 2))
+				&& ft_strlen(matrix[0]) == 2)
+			|| ((!ft_strncmp(matrix[0], "F", 1)
+					|| !ft_strncmp(matrix[0], "C", 1))
+				&& ft_strlen(matrix[0]) == 1)))
 	{
-		free_matrix(split_line);
+		free_matrix(matrix);
 		return (2);
 	}
-	free_matrix(split_line);
+	free_matrix(matrix);
 	if (is_map == 1)
 		return (errors("Textures, colors or map not correctly written\n"));
 	temp = game->is_texture;
@@ -90,7 +91,7 @@ int	open_save_all(char *argv, t_game *game, int temp)
 		if (temp == 1)
 		{
 			free(line);
-			continue;
+			continue ;
 		}
 		temp = is_texture(line, map, game);
 		if (temp == 2)
