@@ -43,6 +43,7 @@ typedef struct s_game
 	char		**map;
 	int			map_width;
 	int			map_height;
+	char		player_dir;
 	int			player_x;
 	int			player_y;
 	t_textures	*textures;
@@ -56,5 +57,6 @@ int	parse(t_game *game, char *argv);
 int	check_cub(char *argv);
 int	open_save_all(char *argv, t_game *game, int temp);
 void	free_matrix(char **matrix);
+int	check_textures(t_game *game);
 
 #endif
