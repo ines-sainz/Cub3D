@@ -61,13 +61,14 @@ int	check_map(t_game *game)
 
 int	rectangular_map(t_game *game)
 {
-	(void)game;
+	game->map = ft_calloc(game->map_height + 1, sizeof(char *));
+	if (!game->map)
+		return (errors("Wrong map\n"));
 	return (0);
 }
 
 int	parse(t_game *game, char *argv)
 {
-	(void)game;
 	if (check_cub(argv) == 1)
 		return (1);
 	if (open_save_all(argv, game, 0) == 1)

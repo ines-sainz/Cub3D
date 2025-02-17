@@ -21,9 +21,6 @@ int	errors(char	*str)
 
 void	free_structure(t_game *game)
 {
-	int i;
-
-	i = 0;
 	if (game->textures)
 	{
 		if (game->textures->north)

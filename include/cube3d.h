@@ -32,8 +32,8 @@ typedef struct s_textures
 	char	*south;
 	char	*east;
 	char	*west;
-	int		floor[3];
-	int		celing[3];
+	int		floor[4];
+	int		celing[4];
 }			t_textures;
 
 typedef struct s_game

@@ -129,9 +129,9 @@ int	check_colors(char **split_line, t_game *game)
 			return (errors("Colors aren't written correctly\n"));
 	}
 	if (!ft_strncmp(split_line[0], "C", 1) && ft_strlen(split_line[0]) == 1)
-		game->textures->celing[0] = 0;
+		game->textures->celing[3] = 255;
 	if (!ft_strncmp(split_line[0], "F", 1) && ft_strlen(split_line[0]) == 1)
-		game->textures->floor[0] = 0;
+		game->textures->floor[3] = 255;
 	return (0);
 }
 
@@ -174,5 +174,9 @@ int	check_textures(t_game *game)
 			return (free_matrix(split_textures), 1);
 		i++;
 	}
+	if (!game->textures->celing[3] || !game->textures->floor[3])
+		return (free_matrix(split_textures), errors("Not celing or floor\n"));
+	if (!game->is_map)
+		return (free_matrix(split_textures), errors("Map not added\n"));
 	return (free_matrix(split_textures), 0);
 }
