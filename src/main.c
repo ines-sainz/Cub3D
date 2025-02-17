@@ -71,8 +71,8 @@ int	main(int argc, char **argv)
 	printf("south = %s\n", game.textures->south);
 	printf("east = %s\n", game.textures->east);
 	printf("west = %s\n", game.textures->west);
-	printf("celing = %i %i %i\n", game.textures->celing[0], game.textures->celing[1], game.textures->celing[2]);
 	printf("floor = %i %i %i\n", game.textures->floor[0], game.textures->floor[1], game.textures->floor[2]);
+	printf("celing = %i %i %i\n", game.textures->celing[0], game.textures->celing[1], game.textures->celing[2]);
 	printf("MAP:\n");
 	int	i = 0;
 	while (game.map[i])
