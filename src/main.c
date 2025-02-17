@@ -21,6 +21,8 @@ int	errors(char	*str)
 
 void	free_structure(t_game *game)
 {
+	int	i;
+
 	if (game->textures)
 	{
 		if (game->textures->north)
@@ -37,6 +39,13 @@ void	free_structure(t_game *game)
 		free(game->is_map);
 	if (game->is_texture)
 		free(game->is_texture);
+	i = 0;
+	if (game->map)
+	{
+		while (game->map[i])
+			free(game->map[i++]);
+		game->map = NULL;
+	}
 }
 
 void	init_structure(t_game *game)
@@ -63,6 +72,13 @@ int	main(int argc, char **argv)
 	printf("west = %s\n", game.textures->west);
 	printf("is_texture: %s\n", game.is_texture);
 	printf("is_map:\n%s\n", game.is_map);
+	printf("MAP:\n");
+	int	i = 0;
+	while (game.map[i])
+	{
+		printf("%s\n", game.map[i]);
+		i++;
+	}
 	printf("map_width : %i map_height: %i\n", game.map_width, game.map_height);
 	printf("player_x : %i player_y: %i\n", game.player_x, game.player_y);
 	free_structure(&game);
