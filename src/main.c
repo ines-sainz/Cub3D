@@ -44,6 +44,7 @@ void	free_structure(t_game *game)
 	{
 		while (game->map[i])
 			free(game->map[i++]);
+		free(game->map);
 		game->map = NULL;
 	}
 }
@@ -71,7 +72,6 @@ int	main(int argc, char **argv)
 	printf("east = %s\n", game.textures->east);
 	printf("west = %s\n", game.textures->west);
 	printf("is_texture: %s\n", game.is_texture);
-	printf("is_map:\n%s\n", game.is_map);
 	printf("MAP:\n");
 	int	i = 0;
 	while (game.map[i])

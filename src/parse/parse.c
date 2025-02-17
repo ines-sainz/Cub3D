@@ -68,24 +68,24 @@ int	rectangular_map(t_game *game)
 	temp = ft_split(game->is_map, '\n');
 	game->map = ft_calloc(game->map_height + 1, sizeof(char *));
 	if (!game->map)
-		return (errors("Wrong map\n"));
+		return (free_matrix(temp), errors("Wrong map\n"));
 	i = 0;
 	while (i < game->map_height)
 	{
 		game->map[i] = ft_calloc(game->map_width + 1, sizeof(char));
 		if (!game->map[i])
-			return (free_matrix(game->map), errors("Invalid map\n"));
+			return (free_matrix(temp), errors("Invalid map\n"));
 		j = 0;
-		while (j < game->map_width)
+		while (temp[i][j])
 		{
-			game->map[i][j] = 'x';
-			if (temp[i][j])
-				game->map[i][j] = temp[i][j];
+			game->map[i][j] = temp[i][j];
 			j++;
 		}
+		while (j < game->map_width)
+			game->map[i][j++] = 'x';
 		i++;
 	}
-	return (0);
+	return (free_matrix(temp), 0);
 }
 
 int	check_x(int i, int j, t_game *game)
