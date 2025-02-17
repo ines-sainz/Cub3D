@@ -20,6 +20,7 @@ SRC				=	src/main.c \
 					$(PARSE_DIR)/parse.c \
 					$(PARSE_DIR)/cub_line_break.c \
 					$(PARSE_DIR)/colors_textures.c \
+					$(PARSE_DIR)/check_map.c
 
 OBJ				=	$(SRC:.c=.o)
 

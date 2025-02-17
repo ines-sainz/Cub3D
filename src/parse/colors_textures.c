@@ -118,11 +118,12 @@
 int	check_colors(char **split_line, t_game *game)
 {
 	if ((!game->textures->north || !game->textures->south
-		|| !game->textures->east || !game->textures->west))
+			|| !game->textures->east || !game->textures->west))
 	{
 		return (errors("Textures aren't written correctly\n"));
 	}
-	if ((!ft_strncmp(split_line[0], "F", 1) || !ft_strncmp(split_line[0], "C", 1))
+	if ((!ft_strncmp(split_line[0], "F", 1)
+			|| !ft_strncmp(split_line[0], "C", 1))
 		&& ft_strlen(split_line[0]) == 1)
 	{
 		if (!split_line[0] || !split_line[1] || split_line[2])
@@ -135,30 +136,31 @@ int	check_colors(char **split_line, t_game *game)
 	return (0);
 }
 
-int	set_texture(char **split_line, t_game *game)
+int	set_texture(char **splitted, t_game *game)
 {
-	if (((!ft_strncmp(split_line[0], "NO", 2) || !ft_strncmp(split_line[0], "SO", 2)
-					|| !ft_strncmp(split_line[0], "EA", 2)
-					|| !ft_strncmp(split_line[0], "WE", 2))
-				&& ft_strlen(split_line[0]) == 2)
-			|| ((!ft_strncmp(split_line[0], "F", 1)
-					|| !ft_strncmp(split_line[0], "C", 1))
-				&& ft_strlen(split_line[0]) == 1))
+	if (((!ft_strncmp(splitted[0], "NO", 2)
+				|| !ft_strncmp(splitted[0], "SO", 2)
+				|| !ft_strncmp(splitted[0], "EA", 2)
+				|| !ft_strncmp(splitted[0], "WE", 2))
+			&& ft_strlen(splitted[0]) == 2)
+		|| ((!ft_strncmp(splitted[0], "F", 1)
+				|| !ft_strncmp(splitted[0], "C", 1))
+			&& ft_strlen(splitted[0]) == 1))
 	{
-		if (!split_line[0] || !split_line[1] || split_line[2])
-			return (free_matrix(split_line), errors("Incorrect textures\n"));
+		if (!splitted[0] || !splitted[1] || splitted[2])
+			return (free_matrix(splitted), errors("Incorrect textures\n"));
 	}
-	if (!ft_strncmp(split_line[0], "NO", 2) && ft_strlen(split_line[0]) == 2)
-		game->textures->north = ft_strdup(split_line[1]);
-	else if (!ft_strncmp(split_line[0], "SO", 2) && ft_strlen(split_line[0]) == 2)
-		game->textures->south = ft_strdup(split_line[1]);
-	else if (!ft_strncmp(split_line[0], "EA", 2) && ft_strlen(split_line[0]) == 2)
-		game->textures->east = ft_strdup(split_line[1]);
-	else if (!ft_strncmp(split_line[0], "WE", 2) && ft_strlen(split_line[0]) == 2)
-		game->textures->west = ft_strdup(split_line[1]);
-	else if (check_colors(split_line, game) == 1)
-		return (free_matrix(split_line), 1);
-	return (free_matrix(split_line), 0);
+	if (!ft_strncmp(splitted[0], "NO", 2) && ft_strlen(splitted[0]) == 2)
+		game->textures->north = ft_strdup(splitted[1]);
+	else if (!ft_strncmp(splitted[0], "SO", 2) && ft_strlen(splitted[0]) == 2)
+		game->textures->south = ft_strdup(splitted[1]);
+	else if (!ft_strncmp(splitted[0], "EA", 2) && ft_strlen(splitted[0]) == 2)
+		game->textures->east = ft_strdup(splitted[1]);
+	else if (!ft_strncmp(splitted[0], "WE", 2) && ft_strlen(splitted[0]) == 2)
+		game->textures->west = ft_strdup(splitted[1]);
+	else if (check_colors(splitted, game) == 1)
+		return (free_matrix(splitted), 1);
+	return (free_matrix(splitted), 0);
 }
 
 int	check_textures(t_game *game)

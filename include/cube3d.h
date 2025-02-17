@@ -50,13 +50,16 @@ typedef struct s_game
 }				t_game;
 
 //MAIN
-int	errors(char	*str);
+int		errors(char	*str);
 
 //PARSE
-int	parse(t_game *game, char *argv);
-int	check_cub(char *argv);
-int	open_save_all(char *argv, t_game *game, int temp);
+int		parse(t_game *game, char *argv);
+int		check_cub(char *argv);
+int		open_save_all(char *argv, t_game *game, int temp);
 void	free_matrix(char **matrix);
-int	check_textures(t_game *game);
+int		check_textures(t_game *game);
+int		check_map(t_game *game);
+int		rectangular_map(t_game *game);
+int		check_rectangle(t_game *game);
 
 #endif
