@@ -89,7 +89,7 @@ int	check_colors(char **split_line, t_game *game)
 }
 
 int	set_texture(char **splitted, t_game *game)
-{
+{ 
 	if (((!ft_strncmp(splitted[0], "NO", 2)
 				|| !ft_strncmp(splitted[0], "SO", 2)
 				|| !ft_strncmp(splitted[0], "EA", 2)
@@ -122,6 +122,8 @@ int	check_textures(t_game *game)
 
 	i = 0;
 	split_texture = ft_split(game->is_texture, '\n');
+	if (!split_texture || !split_texture[0])
+		return (errors("Map not ok\n"));
 	while (split_texture[i])
 	{
 		if (set_texture(ft_split(split_texture[i], ' '), game) == 1)

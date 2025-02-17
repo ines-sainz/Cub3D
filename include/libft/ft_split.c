@@ -13,77 +13,81 @@
 #include "libft.h"
 #include <stdlib.h>
 
-static char	**ft_free_strings(char **new_string, int j)
+static char **ft_free_strings(char **new_string, int j)
 {
-	while (j >= 0)
-	{
-		free(new_string[j]);
-		j--;
-	}
-	free(new_string);
-	return (0);
+    while (j >= 0)
+    {
+        free(new_string[j]);
+        j--;
+    }
+    free(new_string);
+    return (0);
 }
-
-static int	ft_count_words(char const *s, char c)
+static int  ft_count_words(char const *s, char c)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	if (!s)
-		return (0);
-	while (s[i] != '\0')
-	{
-		if (s[i] == c && s[i + 1] != '\0')
-			i++;
-		if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
-			j++;
-		i++;
-	}
-	return (j + 1);
+    int i;
+    int j;
+    i = 0;
+    j = 0;
+    if (!s)
+        return (0);
+    while (s[i] != '\0')
+    {
+        if (s[i] == c && s[i + 1] != '\0')
+            i++;
+        if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
+            j++;
+        i++;
+    }
+    return (j + 1);
 }
-
-char	**ft_split(char const *s, char c)
+char *fill(char const *s, char c, int *cont)
 {
-	int		cont[3];
-	char	**string;
-
-	cont[0] = 0;
-	cont[1] = 0;
-	string = ft_calloc(ft_count_words(s, c), sizeof(char *));
-	if (string == NULL)
-		return (0);
-	while (s && s[cont[0]] != '\0')
-	{
-		if (s[cont[0]] == c)
-			cont[0]++;
-		cont[2] = cont[0];
-		while (s[cont[0]] != c && s[cont[0]])
-		{
-			cont[0]++;
-			if (s[cont[0]] == c || s[cont[0]] == '\0')
-			{
-				string[cont[1]] = ft_substr(s, cont[2], cont[0] - cont[2]);
-				if (string[cont[1]++] == NULL)
-					return (ft_free_strings(string, cont[1]));
-			}
-		}
-	}
-	return (string);
+    int j;
+    char *string;
+    j = 0;
+    string = NULL;
+    while (s[*cont] == c && s[*cont])
+        (*cont)++;
+    j = *cont;
+    while (s[*cont] != c && s[*cont])
+        (*cont)++;
+    string = ft_substr(s, j, *cont - j);
+    return (string);
 }
-
-/*int main(void)
+char    **ft_split(char const *s, char c)
 {
-	char	**str;
-	int		i;
-
-	i = 0;
-	str = ft_split("holchochol", 'c');
-	while (str[i])
-	{
-	    printf("%s\n", str[i]);
-		i++;
-	}
+    int     cont;
+    char    **string;
+    int     count_words;
+    int     i;
+    i = 0;
+    cont = 0;
+    if (!s)
+        return (NULL);
+    count_words = ft_count_words(s, c);
+    string = ft_calloc(count_words, sizeof(char *));
+    if (string == NULL)
+        return (free(string), NULL);
+    while (i < count_words - 1)
+    {
+        string[i] = fill(s, c, &cont);
+        if (!string[i])
+            return (ft_free_strings(string, i));
+        i++;
+    }
+    return (string);
 }
-*/
+ /*int main(void)
+{
+    char    **str;
+    int     i;
+    i = 0;
+    str = ft_split("holchochol", 'c');
+    while (str[i])
+    {
+        printf("%s\n", str[i]);
+        i++;
+    }
+}
+ */
