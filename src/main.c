@@ -65,7 +65,7 @@ int	main(int argc, char **argv)
 	printf("east = %s\n", game.textures->east);
 	printf("west = %s\n", game.textures->west);
 	printf("is_texture: %s\n", game.is_texture);
-	printf("is_map: %s\n", game.is_map);
+	printf("is_map:\n%s\n", game.is_map);
 	printf("map_width : %i map_height: %i\n", game.map_width, game.map_height);
 	printf("player_x : %i player_y: %i\n", game.player_x, game.player_y);
 	free_structure(&game);

@@ -26,8 +26,8 @@ int	check_character(char c, int i, int j, t_game *game)
 		game->player_x = j;
 		game->player_dir = c;
 	}
-	if (game->map_width < j)
-		game->map_width = j;
+	if (game->map_width <= j)
+		game->map_width = j + 1;
 	return (0);
 }
 
@@ -51,11 +51,17 @@ int	check_map(t_game *game)
 			j++;
 		}
 		if (temp_map[i][j - 1] != '1' && temp_map[i][j - 1] != ' ')
-			return (errors("Map not surrounded by 1\n"));
+			return (free_matrix(temp_map), errors("Map not surrounded by 1\n"));
 		i++;
 	}
 	if (game->player_x == 0 || game->player_y == 0)
 		return (free_matrix(temp_map), errors("The player isn't correct\n"));
+	return (free_matrix(temp_map), 0);
+}
+
+int	rectangular_map(t_game *game)
+{
+	(void)game;
 	return (0);
 }
 
@@ -69,6 +75,8 @@ int	parse(t_game *game, char *argv)
 	if (check_textures(game) == 1)
 		return (1);
 	if (check_map(game) == 1)
+		return (1);
+	if (rectangular_map(game) == 1)
 		return (1);
 	return (0);
 }
