@@ -12,116 +12,58 @@
 
 #include "../../include/cube3d.h"
 
-/*int	check_texture(char **texture, t_game *game)
+int	check_line(char *line)
 {
-	if (ft_strncmp(texture[0], "NO", 2) && ft_strlen(texture) == 2)
-	{
-		if (!texture[1] || texture[2])
-			return (errors("Textures aren't written correctly\n"));
-		game->textures->north = ft_strdup(texture[1]);
-	}
-	if (ft_strncmp(texture[0], "SO", 2) && ft_strlen(texture) == 2)
-	{
-		if (!texture[1] || texture[2])
-			return (errors("Textures aren't written correctly\n"));
-		game->textures->south = ft_strdup(texture[1]);
-	}
-	if (ft_strncmp(texture[0], "EA", 2) && ft_strlen(texture) == 2)
-	{
-		if (!texture[1] || texture[2])
-			return (errors("Textures aren't written correctly\n"));
-		game->textures->east = ft_strdup(texture[1]);
-	}
-	if (ft_strncmp(texture[0], "WE", 2) && ft_strlen(texture) == 2)
-	{
-		if (!texture[1] || texture[2])
-			return (errors("Textures aren't written correctly\n"));
-		game->textures->west = ft_strdup(texture[1]);
-	}
-	return (0);
-}*/
+	int	comma;
+	int	i;
 
-/*int	check_line(char *temp, char **texture, t_game *game)
-{
-	static int	line_break = 0;
-	static int	map = 0;
-
-	if ((temp[0] == ' ' && (!texture || !*texture)) || texture[0] == '1'
-		|| texture[0] == '0')
-		map = 1;
-	if (temp[0] == '\n' && map == 1)
-		line_break++;
-	if (ft_strncmp(texture[0], "NO", 2) && ft_strlen(temp) == 2)
-		return(check_texture(texture, game));
-	if (ft_strncmp(texture[0], "SO", 2) && ft_strlen(temp) == 2)
-		return(check_texture(texture, game));
-	if (ft_strncmp(texture[0], "EA", 2) && ft_strlen(temp) == 2)
-		return(check_texture(texture, game));
-	if (ft_strncmp(texture[0], "WE", 2) && ft_strlen(temp) == 2)
-		return(check_texture(texture, game));
-
-}*/
-
-/*int	set_in_struct(t_game *game)
-{
-	int		i;
-	int		start;
-	int		textures;
-	char	*temp;
-
+	comma = 0;
 	i = 0;
-	textures = 0;
-	while (game->everything_line[i])
+	while (line[i])
 	{
-		start = i;
-		while (game->everything_line[i] && game->everything_line[i] != '\n')
-			i++;
-		temp = ft_substr(game->everything_line, start, i - start + 1);
-		if (check_line(temp, ft_split(temp, ' '), game) == 1)
-			return (free(temp), 1);
-		//printf("line(%zu) = %s", ft_strlen(temp), temp);
-		free(temp);
+		if (line[i] == ',')
+			comma++;
 		i++;
 	}
+	if (comma != 2)
+		return (-1);
 	return (0);
-}*/
+}
 
-/*int	open_save_all(char *argv, t_game *game, int n_bytes)
+int	add_color(int num_color, char *line)
 {
-	int		fd;
-	char	*temp;
-	char	*buffer;
+	int	comma;
+	int	i;
+	int	n;
 
-	fd = open(argv, O_RDONLY);
-	if (fd < 0)
-		return (errors("Can't open .cub file\n"));
-	buffer = ft_calloc(101, sizeof(char));
-	if (!buffer)
-		return (errors("Can't open .cub file\n"));
-	while (n_bytes)
+	comma = 0;
+	i = 0;
+	n = 0;
+	if (check_line(line) == -1)
+		return (-1);
+	while (line[i])
 	{
-		n_bytes = read(fd, buffer, 100);
-		if (n_bytes < 0)
-			return (free(buffer), errors("Can't read .cub file\n"));
-		buffer[n_bytes] = '\0';
-		temp = game->everything_line;
-		game->everything_line = ft_strjoin(temp, buffer);
-		free(temp);
-		if (!game->everything_line)
-			return (free(buffer), errors("Can't read .cub file\n"));
+		if ((!(line[i] >= '0' && line[i] <= '9') && line[i] != ',') || n > 255)
+			return (-1);
+		if (line[i] >= '0' && line[i] <= '9')
+			n = n * 10 + (line[i] - '0');
+		if (line[i] == ',' && num_color == comma)
+			break ;
+		if (line[i] == ',')
+		{
+			n = 0;
+			comma++;
+		}
+		i++;
 	}
-//	printf("everything line: %s", game->everything_line);
-	game->everything = ft_split(game->everything_line, '\n');
-	return (free(buffer), free(game->everything_line), 0);
-}*/
+	return (n);
+}
 
 int	check_colors(char **split_line, t_game *game)
 {
 	if ((!game->textures->north || !game->textures->south
 			|| !game->textures->east || !game->textures->west))
-	{
 		return (errors("Textures aren't written correctly\n"));
-	}
 	if ((!ft_strncmp(split_line[0], "F", 1)
 			|| !ft_strncmp(split_line[0], "C", 1))
 		&& ft_strlen(split_line[0]) == 1)
@@ -130,9 +72,19 @@ int	check_colors(char **split_line, t_game *game)
 			return (errors("Colors aren't written correctly\n"));
 	}
 	if (!ft_strncmp(split_line[0], "C", 1) && ft_strlen(split_line[0]) == 1)
+	{
+		game->textures->celing[0] = add_color(0, split_line[1]);
+		game->textures->celing[1] = add_color(1, split_line[1]);
+		game->textures->celing[2] = add_color(2, split_line[1]);
 		game->textures->celing[3] = 255;
+	}
 	if (!ft_strncmp(split_line[0], "F", 1) && ft_strlen(split_line[0]) == 1)
+	{
+		game->textures->floor[0] = add_color(0, split_line[1]);
+		game->textures->floor[1] = add_color(1, split_line[1]);
+		game->textures->floor[2] = add_color(2, split_line[1]);
 		game->textures->floor[3] = 255;
+	}
 	return (0);
 }
 
@@ -166,19 +118,28 @@ int	set_texture(char **splitted, t_game *game)
 int	check_textures(t_game *game)
 {
 	int		i;
-	char	**split_textures;
+	char	**split_texture;
 
 	i = 0;
-	split_textures = ft_split(game->is_texture, '\n');
-	while (split_textures[i])
+	split_texture = ft_split(game->is_texture, '\n');
+	while (split_texture[i])
 	{
-		if (set_texture(ft_split(split_textures[i], ' '), game) == 1)
-			return (free_matrix(split_textures), 1);
+		if (set_texture(ft_split(split_texture[i], ' '), game) == 1)
+			return (free_matrix(split_texture), 1);
+		i++;
+	}
+	i = 0;
+	while (i < 3)
+	{
+		if (game->textures->celing[i] == -1)
+			return (free_matrix(split_texture), errors("Celing not correct\n"));
+		if (game->textures->floor[i] == -1)
+			return (free_matrix(split_texture), errors("Floor not correct\n"));
 		i++;
 	}
 	if (!game->textures->celing[3] || !game->textures->floor[3])
-		return (free_matrix(split_textures), errors("Not celing or floor\n"));
+		return (free_matrix(split_texture), errors("Not celing or floor\n"));
 	if (!game->is_map)
-		return (free_matrix(split_textures), errors("Map not added\n"));
-	return (free_matrix(split_textures), 0);
+		return (free_matrix(split_texture), errors("Map not added\n"));
+	return (free_matrix(split_texture), 0);
 }
