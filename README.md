@@ -14,7 +14,7 @@
 - Parse and validate a `.cub` configuration file containing texture paths, map layout, and RGB values for floor/ceiling.
 - Ensure **player movement**, wall collision, and visual feedback are smooth and bug-free.
 
-## ✨ Included Features (Mandatory + Bonus)
+## ✨ Included Features
 
 ✅ Realistic 3D maze view using raycasting  
 ✅ Floor and ceiling colors  
